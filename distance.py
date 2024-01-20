@@ -1,10 +1,5 @@
 import numpy as np
 
-"""
-working precision u, float32
-ul: precision lower than u
-"""
-
 def pairwise_dist_y1(x, y):
     distm = np.zeros((x.shape[0], y.shape[0]))
     for i in range(x.shape[0]):
@@ -142,7 +137,6 @@ def standard_distance1(x, y):
     return np.sum(v * v, axis=1)
 
 
-    
 def standard_distance2(x, y):
     xx = np.einsum('ij,ij->i', x,  x)
     
