@@ -6,7 +6,7 @@ There are six variants to perform kmeans
 
 | Variant |   |
 | :---:   | :---: |
-| StandardKMeans1  | he native kmeans algorithm using distance 1 |
+| StandardKMeans1  | the native kmeans algorithm using distance 1 |
 | StandardKMeans2 | the native kmeans algorithm using distance 2   | 
 | mp1KMeans | the mixed precision kmeans algorithm using distance 1 | 
 | mp2KMeans | the mixed precision kmeans algorithm using distance 2 |
