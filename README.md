@@ -1,5 +1,5 @@
 # mpkmeans
-experimental code
+Experimental code
 
 
 There are six variants to perform kmeans
