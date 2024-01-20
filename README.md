@@ -13,6 +13,8 @@ There are six variants to perform kmeans
 | allowKMeans1 | kmeans performed in full low precision using distance 1 |
 | allowKMeans2 | kmeans performed in full low precision using distance 2 |
 
+<br />
+<br />
 
 Example code
 ```Python
