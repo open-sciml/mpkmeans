@@ -14,8 +14,8 @@ There are six variants to perform kmeans
 | allowKMeans2 | kmeans performed in full low precision using distance 2 |
 
 
+Example code
 ```Python
-import numpy as np
 from kmeans import StandardKMeans1, StandardKMeans2, mp1KMeans, mp2KMeans,  allowKMeans1,  allowKMeans2, chop
 from sklearn.datasets import make_blobs
 
