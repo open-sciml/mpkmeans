@@ -2,7 +2,7 @@ import numpy as np
 from sklearn.cluster._k_means_common import _inertia_dense
 from distance import *
 from seeding import *
-from sklearn.preprocessing import normalize
+
 
 """
 StandardKMeans1: the native kmeans algorithm using distance 1
@@ -34,7 +34,7 @@ class StandardKMeans1:
         elif self.seeding == 'd2':
             self.centers = d2_seeding1(X, self.n_clusters)
         else:
-            self.centers = pca_aggregate1(normalize(X, norm="l1"), self.alpha)
+            self.centers = pca_aggregate1(X, self.alpha)
             
         simulate_weights = np.ones(X.shape[0], dtype=np.float64)
         
@@ -90,7 +90,7 @@ class StandardKMeans2:
         elif self.seeding == 'd2':
             self.centers = d2_seeding2(X, self.n_clusters)
         else:
-            self.centers = pca_aggregate2(normalize(X, norm="l1"), self.alpha)
+            self.centers = pca_aggregate2(X, self.alpha)
             
         simulate_weights = np.ones(X.shape[0], dtype=np.float64)
         
@@ -149,14 +149,13 @@ class mp1KMeans:
         elif self.seeding == 'd2':
             self.centers = all_low_d2_seeding1(X, self.n_clusters, self.low_prec)
         else:
-            self.centers = all_low_pca_aggregate1(normalize(X, norm="l1"), self.alpha, self.low_prec)
+            self.centers = all_low_pca_aggregate1(X, self.alpha, self.low_prec)
             
         simulate_weights = np.ones(X.shape[0], dtype=np.float64)
         
         for _iter in range(self.max_iters):
             labels = self.labels_assignment(X)
             updated_centers = self.centers_update(X, labels)
-            print(updated_centers.shape)
             # if np.all(self.centers == new_centers):
             #    break
             
@@ -208,7 +207,7 @@ class mp2KMeans:
         elif self.seeding == 'd2':
             self.centers = all_low_d2_seeding2(X, self.n_clusters, self.low_prec)
         else:
-            self.centers = all_low_pca_aggregate2(normalize(X, norm="l1"), self.alpha, self.low_prec)
+            self.centers = all_low_pca_aggregate2(X, self.alpha, self.low_prec)
             
         simulate_weights = np.ones(X.shape[0], dtype=np.float64)
         
@@ -269,7 +268,7 @@ class allowKMeans1:
         elif self.seeding == 'd2':
             self.centers = all_low_d2_seeding1(X, self.n_clusters, self.low_prec)
         else:
-            self.centers = all_low_pca_aggregate1(normalize(X, norm="l1"), self.alpha, self.low_prec)
+            self.centers = all_low_pca_aggregate1(X, self.alpha, self.low_prec)
             
         simulate_weights = np.ones(X.shape[0], dtype=np.float64)
         
@@ -328,7 +327,7 @@ class allowKMeans2:
         elif self.seeding == 'd2':
             self.centers = all_low_d2_seeding2(X, self.n_clusters, self.low_prec) 
         else:
-            self.centers = all_low_pca_aggregate2(normalize(X, norm="l1"), self.alpha, self.low_prec)
+            self.centers = all_low_pca_aggregate2(X, self.alpha, self.low_prec)
             
         simulate_weights = np.ones(X.shape[0], dtype=np.float64)
         
