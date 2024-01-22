@@ -63,15 +63,6 @@ def mp1_pairwise_dist(x, low_prec):
         distm[i+1:, i] = distm[i, i+1:]
     return distm
 
-
-def all_low_pairwise_dist1(x, low_prec):
-    distm = np.zeros((x.shape[0], x.shape[0]))
-    for i in range(x.shape[0]):
-        distm[i, i+1:] = all_low_distance1(x[i+1:, :], x[i], low_prec)
-        distm[i+1:, i] = distm[i, i+1:]
-    return distm
-
-
 def mp2_pairwise_dist(x, low_prec):
     distm = np.zeros((x.shape[0], x.shape[0]))
     for i in range(x.shape[0]):
@@ -79,6 +70,12 @@ def mp2_pairwise_dist(x, low_prec):
         distm[i+1:, i] = distm[i, i+1:]
     return distm
 
+def all_low_pairwise_dist1(x, low_prec):
+    distm = np.zeros((x.shape[0], x.shape[0]))
+    for i in range(x.shape[0]):
+        distm[i, i+1:] = all_low_distance1(x[i+1:, :], x[i], low_prec)
+        distm[i+1:, i] = distm[i, i+1:]
+    return distm
 
 def all_low_pairwise_dist2(x, low_prec):
     distm = np.zeros((x.shape[0], x.shape[0]))
