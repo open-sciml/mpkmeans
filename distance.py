@@ -56,17 +56,17 @@ def pairwise_dist2(x):
         distm[i+1:, i] = distm[i, i+1:]
     return distm
 
-def mp1_pairwise_dist(x, low_prec):
+def mp1_pairwise_dist(x, low_prec, delta=10e-3):
     distm = np.zeros((x.shape[0], x.shape[0]))
     for i in range(x.shape[0]):
-        distm[i, i+1:], low_op = mp_distance1(x[i+1:, :], x[i], low_prec)
+        distm[i, i+1:], low_op = mp_distance1(x[i+1:, :], x[i], low_prec, delta)
         distm[i+1:, i] = distm[i, i+1:]
     return distm
 
-def mp2_pairwise_dist(x, low_prec):
+def mp2_pairwise_dist(x, low_prec, delta=10e-3):
     distm = np.zeros((x.shape[0], x.shape[0]))
     for i in range(x.shape[0]):
-        distm[i, i+1:], low_op = mp_distance2(x[i+1:, :], x[i], low_prec)
+        distm[i, i+1:], low_op = mp_distance2(x[i+1:, :], x[i], low_prec, delta)
         distm[i+1:, i] = distm[i, i+1:]
     return distm
 
@@ -96,13 +96,6 @@ def mp_distance1(x, y, low_prec, delta=10e-3):
     return dist, low_op
 
 
-def all_low_distance1(x, y, low_prec):
-    x, y = low_prec(x), low_prec(y)
-    v = low_prec(x - y)
-    dist = np.sum(v * v, axis=1)
-    return dist
-
-
 def mp_distance2(x, y, low_prec, delta=10e-3):
     xx = np.einsum('ij,ij->i', x,  x)
     
@@ -116,7 +109,16 @@ def mp_distance2(x, y, low_prec, delta=10e-3):
     dist = xx + cct - dist
     return dist, low_op
 
-    
+
+
+def all_low_distance1(x, y, low_prec):
+    x, y = low_prec(x), low_prec(y)
+    v = low_prec(x - y)
+    dist = np.sum(v * v, axis=1)
+    return dist
+
+
+
 def all_low_distance2(x, y, low_prec):
     x = low_prec(x)
     y = low_prec(y)
