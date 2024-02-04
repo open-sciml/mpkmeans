@@ -2,7 +2,7 @@ import numpy as np
 from sklearn.cluster._k_means_common import _inertia_dense
 from distance import *
 from seeding import *
-
+from pychop.numpy import chop
 
 """
 StandardKMeans1: the native kmeans algorithm using distance 1
@@ -34,10 +34,19 @@ class StandardKMeans1:
         elif self.seeding == 'd2':
             self.centers = d2_seeding1(X, self.n_clusters)
         else:
-            self.centers = pca_aggregate1(X, self.alpha)
+            xmin = X.min(axis=0)
+            xmax = X.max(axis=0)
+            self.centers = pca_aggregate1((X - xmin)/(xmax - xmin) , self.alpha)
+            self.centers = self.centers*(xmax - xmin) + xmin
             
         simulate_weights = np.ones(X.shape[0], dtype=np.float64)
-        
+        labels = self.labels_assignment(X)
+        self.inertia.append(_inertia_dense(X, 
+                                      simulate_weights,
+                                      self.centers.astype(np.float64), 
+                                      labels.astype(np.int32), n_threads=10
+                                     )
+                           )
         for _iter in range(self.max_iters):
             labels = self.labels_assignment(X)
             updated_centers = self.centers_update(X, labels)
@@ -45,10 +54,11 @@ class StandardKMeans1:
             # if np.all(self.centers == new_centers):
             #    break
             
+            self.iter = _iter
             if ((self.centers - updated_centers)**2).sum() <= self.tol:
                 break
                 
-            _inertia = _inertia_dense(X, simulate_weights, updated_centers, labels.astype(np.int32), n_threads=1)
+            _inertia = _inertia_dense(X, simulate_weights, updated_centers, labels.astype(np.int32), n_threads=10)
             self.inertia.append(_inertia)
             self.centers = updated_centers
             
@@ -90,10 +100,19 @@ class StandardKMeans2:
         elif self.seeding == 'd2':
             self.centers = d2_seeding2(X, self.n_clusters)
         else:
-            self.centers = pca_aggregate2(X, self.alpha)
+            xmin = X.min(axis=0)
+            xmax = X.max(axis=0)
+            self.centers = pca_aggregate2((X - xmin)/(xmax - xmin), self.alpha)
+            self.centers = self.centers*(xmax - xmin) + xmin
             
         simulate_weights = np.ones(X.shape[0], dtype=np.float64)
-        
+        labels = self.labels_assignment(X)
+        self.inertia.append(_inertia_dense(X, 
+                                      simulate_weights,
+                                      self.centers.astype(np.float64), 
+                                      labels.astype(np.int32), n_threads=10
+                                     )
+                           )
         for _iter in range(self.max_iters):
             labels = self.labels_assignment(X)
             updated_centers = self.centers_update(X, labels)
@@ -101,10 +120,11 @@ class StandardKMeans2:
             # if np.all(self.centers == new_centers):
             #    break
             
+            self.iter = _iter
             if ((self.centers - updated_centers)**2).sum() <= self.tol:
                 break
                 
-            _inertia = _inertia_dense(X, simulate_weights, updated_centers, labels.astype(np.int32), n_threads=1)
+            _inertia = _inertia_dense(X, simulate_weights, updated_centers, labels.astype(np.int32), n_threads=10)
             self.inertia.append(_inertia)
             self.centers = updated_centers
             
@@ -126,7 +146,9 @@ class StandardKMeans2:
         new_centers = np.array([X[labels == i].mean(axis=0) for i in range(self.centers.shape[0])])
         return new_centers
 
+
     
+
 class mp1KMeans:
     def __init__(self, n_clusters=2, max_iters=100, seeding='d2', alpha=0.5, tol=1e-4, low_prec=None, verbose=0, random_state=42):
         self.n_clusters = n_clusters
@@ -149,20 +171,30 @@ class mp1KMeans:
         elif self.seeding == 'd2':
             self.centers = all_low_d2_seeding1(X, self.n_clusters, self.low_prec)
         else:
-            self.centers = all_low_pca_aggregate1(X, self.alpha, self.low_prec)
+            xmin = X.min(axis=0)
+            xmax = X.max(axis=0)
+            self.centers = all_low_pca_aggregate1((X - xmin)/(xmax - xmin), self.alpha, self.low_prec)
+            self.centers = self.centers*(xmax - xmin) + xmin
             
         simulate_weights = np.ones(X.shape[0], dtype=np.float64)
-        
+        labels = self.labels_assignment(X)
+        self.inertia.append(_inertia_dense(X, 
+                                      simulate_weights,
+                                      self.centers.astype(np.float64), 
+                                      labels.astype(np.int32), n_threads=10
+                                     )
+                           )
         for _iter in range(self.max_iters):
             labels = self.labels_assignment(X)
             updated_centers = self.centers_update(X, labels)
             # if np.all(self.centers == new_centers):
             #    break
             
+            self.iter = _iter
             if ((self.centers - updated_centers)**2).sum() <= self.tol:
                 break
                 
-            _inertia = _inertia_dense(X, simulate_weights, updated_centers.astype(np.float64), labels.astype(np.int32), n_threads=1)
+            _inertia = _inertia_dense(X, simulate_weights, updated_centers.astype(np.float64), labels.astype(np.int32), n_threads=10)
             self.inertia.append(_inertia)
             self.centers = updated_centers
             
@@ -181,10 +213,8 @@ class mp1KMeans:
         return np.argmin(dists, axis=1)
     
     def centers_update(self, X, labels):
-        new_centers = np.array([self.low_prec(self.low_prec(X[labels == i]).mean(axis=0)) for i in range(self.centers.shape[0])])
+        new_centers = np.array([X[labels == i].mean(axis=0) for i in range(self.centers.shape[0])])
         return new_centers
-
-    
     
     
 class mp2KMeans:
@@ -207,9 +237,19 @@ class mp2KMeans:
         elif self.seeding == 'd2':
             self.centers = all_low_d2_seeding2(X, self.n_clusters, self.low_prec)
         else:
-            self.centers = all_low_pca_aggregate2(X, self.alpha, self.low_prec)
+            xmin = X.min(axis=0)
+            xmax = X.max(axis=0)
+            self.centers = all_low_pca_aggregate2((X - xmin)/(xmax - xmin), self.alpha, self.low_prec)
+            self.centers = self.centers*(xmax - xmin) + xmin
             
         simulate_weights = np.ones(X.shape[0], dtype=np.float64)
+        labels = self.labels_assignment(X)
+        self.inertia.append(_inertia_dense(X, 
+                                      simulate_weights,
+                                      self.centers.astype(np.float64), 
+                                      labels.astype(np.int32), n_threads=10
+                                     )
+                           )
         
         for _iter in range(self.max_iters):
             labels = self.labels_assignment(X)
@@ -218,16 +258,22 @@ class mp2KMeans:
             # if np.all(self.centers == new_centers):
             #    break
             
+            self.iter = _iter
             if ((self.centers - updated_centers)**2).sum() <= self.tol:
                 break
                 
-            _inertia = _inertia_dense(X, simulate_weights, updated_centers.astype(np.float64), labels.astype(np.int32), n_threads=1)
+            _inertia = _inertia_dense(X, simulate_weights, 
+                                      updated_centers.astype(np.float64), 
+                                      labels.astype(np.int32), n_threads=10
+                                     )
+            
             self.inertia.append(_inertia)
             self.centers = updated_centers
             
             if self.verbose:
                 print("iteration:", _iter+1)
-                
+            
+            
         if self.verbose:
             print("total clusters:", self.centers.shape[0])
             
@@ -240,7 +286,7 @@ class mp2KMeans:
         return np.argmin(dists, axis=1)
     
     def centers_update(self, X, labels):
-        new_centers = np.array([self.low_prec(self.low_prec(X[labels == i]).mean(axis=0)) for i in range(self.centers.shape[0])])
+        new_centers = np.array([X[labels == i].mean(axis=0) for i in range(self.centers.shape[0])])
         return new_centers
     
     
@@ -268,10 +314,19 @@ class allowKMeans1:
         elif self.seeding == 'd2':
             self.centers = all_low_d2_seeding1(X, self.n_clusters, self.low_prec)
         else:
-            self.centers = all_low_pca_aggregate1(X, self.alpha, self.low_prec)
+            xmin = X.min(axis=0)
+            xmax = X.max(axis=0)
+            self.centers = all_low_pca_aggregate1((X - xmin)/(xmax - xmin), self.alpha, self.low_prec)
+            self.centers = self.centers*(xmax - xmin) + xmin
             
         simulate_weights = np.ones(X.shape[0], dtype=np.float64)
-        
+        labels = self.labels_assignment(X)
+        self.inertia.append(_inertia_dense(X, 
+                                      simulate_weights,
+                                      self.centers.astype(np.float64), 
+                                      labels.astype(np.int32), n_threads=10
+                                     )
+                           )
         for _iter in range(self.max_iters):
             labels = self.labels_assignment(X)
             updated_centers = self.centers_update(X, labels)
@@ -279,10 +334,11 @@ class allowKMeans1:
             # if np.all(self.centers == new_centers):
             #    break
             
+            self.iter = _iter
             if ((self.centers - updated_centers)**2).sum() <= self.tol:
                 break
                 
-            _inertia = _inertia_dense(X, simulate_weights, updated_centers.astype(np.float64), labels.astype(np.int32), n_threads=1)
+            _inertia = _inertia_dense(X, simulate_weights, updated_centers.astype(np.float64), labels.astype(np.int32), n_threads=10)
             self.inertia.append(_inertia)
             self.centers = updated_centers
             
@@ -327,10 +383,19 @@ class allowKMeans2:
         elif self.seeding == 'd2':
             self.centers = all_low_d2_seeding2(X, self.n_clusters, self.low_prec) 
         else:
-            self.centers = all_low_pca_aggregate2(X, self.alpha, self.low_prec)
+            xmin = X.min(axis=0)
+            xmax = X.max(axis=0)
+            self.centers = all_low_pca_aggregate2((X - xmin)/(xmax - xmin), self.alpha, self.low_prec)
+            self.centers = self.centers*(xmax - xmin) + xmin
             
         simulate_weights = np.ones(X.shape[0], dtype=np.float64)
-        
+        labels = self.labels_assignment(X)
+        self.inertia.append(_inertia_dense(X, 
+                                      simulate_weights,
+                                      self.centers.astype(np.float64), 
+                                      labels.astype(np.int32), n_threads=10
+                                     )
+                           )
         for _iter in range(self.max_iters):
             labels = self.labels_assignment(X)
             updated_centers = self.centers_update(X, labels)
@@ -338,10 +403,11 @@ class allowKMeans2:
             # if np.all(self.centers == new_centers):
             #    break
             
+            self.iter = _iter
             if ((self.centers - updated_centers)**2).sum() <= self.tol:
                 break
                 
-            _inertia = _inertia_dense(X, simulate_weights, updated_centers.astype(np.float64), labels.astype(np.int32), n_threads=1)
+            _inertia = _inertia_dense(X, simulate_weights, updated_centers.astype(np.float64), labels.astype(np.int32), n_threads=10)
             self.inertia.append(_inertia)
             self.centers = updated_centers
             
