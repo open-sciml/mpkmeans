@@ -65,9 +65,7 @@ LOW_PREC = chop(np.float16)
 ```
 
 
-All empirical results in paper is produced via 
-
-Example code
+All empirical results in paper can be produced via the bash command in Linux:
 ```Python
 python3 run_all.py
 ```
