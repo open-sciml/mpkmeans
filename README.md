@@ -30,10 +30,11 @@ from src.kmeans import <classname> # e.g., from src.kmeans import mpKMeans
 ```
 
 
-<br />
-<br />
+All empirical results in paper is produced via 
 
 Example code
 ```Python
-
+python3 run_all.py
 ```
+
+After code running is completed, one can find the results in the folder ``results``
