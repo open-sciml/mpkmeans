@@ -11,6 +11,7 @@ Our code relies on the third-party libraries for data loading and low precision 
 - pychop (For low precision arithmetic simulation)
 
 
+
 One can install them before running our code via:
 ```Bash
 pip install pychop
@@ -54,6 +55,13 @@ mpkmeans.fit(x)
 print(adjusted_rand_score(y, mpkmeans.labels)) # load clustering membership via mpkmeans.labels
 ```
 
+Note that for half and single preicison simulation, user can directly use the built-class in our software via:
+
+```Python
+from src.kmeans import chop
+import numpy as np
+LOW_PREC = chop(np.float16)
+```
 
 
 All empirical results in paper is produced via 
