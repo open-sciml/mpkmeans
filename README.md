@@ -29,6 +29,24 @@ One can load the library via
 from src.kmeans import <classname> # e.g., from src.kmeans import mpKMeans
 ```
 
+The following example showcases the useage of ``mpkmeans`` class
+
+```Python
+from pychop import chop
+from src.kmeans import mpKMeans
+from sklearn.datasets import make_blobs
+from sklearn.metrics.cluster import adjusted_rand_score # For clustering quality evaluation
+
+X, y = make_blobs(n_samples=2000, n_features=2, centers=5) # Generate data with 5 clusters
+
+LOW_PREC = chop(prec='q52') # Define quarter precision
+mpkmeans = mpKMeans(n_clusters=5, seeding='d2', low_prec=LOW_PREC, random_state=0, verbose=1)
+mpkmeans.fit(x)
+
+print(adjusted_rand_score(y, mpkmeans.labels)) # load clustering membership via mpkmeans.labels
+```
+
+
 
 All empirical results in paper is produced via 
 
