@@ -70,4 +70,4 @@ All empirical results in paper can be produced via the bash command in Linux:
 python3 run_all.py
 ```
 
-After code running is completed, one can find the results in the folder ``results``
+After code running is completed, one can find the results in the folder ``results``.
