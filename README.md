@@ -3,7 +3,7 @@
 
 A mixed-precision algorithm of $k$-means is designed towards an understanding of the low precision arithmetic for Euclidean distance computations and analyze the issues using low precision arithmetic for unnormalized data. Both theoretical and practical insights are offered into the mixed precision numerical performance.
 
-By performing simulations across data with various settings, we showcase that decreased precision for $k$-means computing only results in a minor increase in sum of squared errors while not necessarily leading to degrading performance regarding clustering results. The robustness of the mixed-precision $k$-means algorithms over various precisions is demonstrated. Besides, we illustrate the potential application of using mixed-precision k-means over various data science tasks including data clustering and image segmentation. Fully reproducible experimental code is included in this repository.
+By performing simulations across data with various settings, we showcase that decreased precision for $k$-means computing only results in a minor increase in sum of squared errors while not necessarily leading to degrading performance regarding clustering results. The robustness of the mixed-precision $k$-means algorithms over various precisions is demonstrated. Fully reproducible experimental code is included in this repository, which illustrates the potential application of using mixed-precision k-means over various data science tasks including data clustering and image segmentation.
 
 Our code relies on the third-party libraries for data loading and low precision arithmetic simulation
 
