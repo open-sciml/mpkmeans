@@ -60,6 +60,7 @@ Note that for half and single preicison simulation, user can directly use the bu
 ```Python
 from src.kmeans import chop
 import numpy as np
+
 LOW_PREC = chop(np.float16)
 ```
 
