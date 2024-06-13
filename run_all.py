@@ -26,3 +26,5 @@ def main():
     run_exp5()
     print("Experiment 5 Complete.\n\n")
     
+if __name__ == '__main__':
+    main()
