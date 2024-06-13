@@ -18,6 +18,12 @@ pip install classixclustering
 ```
 
 
+The repository contains the folder:
+
+- ``data``: data used for the simulations
+- ``results``: experimental results (images and tables)
+- ``src``: simulation code of mixed-precision k-means and distance computing
+
 This repository contains the following algorithms for k-means computing:
 * StandardKMeans1  - the native kmeans algorithm using distance (5.2)
 * StandardKMeans2 - the native kmeans algorithm using distance (5.3)  
