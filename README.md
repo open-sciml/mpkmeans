@@ -1,7 +1,7 @@
 # mpkmeans
 
 
-A mixed-precision algorithm of $k$-means is designed towards an understanding of the low precision arithmetic for Euclidean distance computations and analyze the issues using low precision arithmetic for unnormalized data. Both theoretical and practical insights are offered into the mixed precision numerical performance.
+A mixed-precision algorithm of $k$-means is designed towards understanding of the low precision arithmetic for Euclidean distance computations and analyzing the issues using low precision arithmetic for unnormalized data. 
 
 By performing simulations across data with various settings, we showcase that decreased precision for $k$-means computing only results in a minor increase in sum of squared errors while not necessarily leading to degrading performance regarding clustering results. The robustness of the mixed-precision $k$-means algorithms over various precisions is demonstrated. Fully reproducible experimental code is included in this repository, which illustrates the potential application of using mixed-precision k-means over various data science tasks including data clustering and image segmentation.
 
@@ -10,7 +10,9 @@ Our code relies on the third-party libraries for data loading and low precision 
 - [classixclustering](https://pages.github.com/nla-group/classix). (For preprocessed UCI data loading)
 - pychop (For low precision arithmetic simulation)
 
+Details on the underlying algorithms can be found in the technical report:
 
+Authors. Computing k-means in mixed precision, Journal.
 
 One can install them before running our code via:
 ```Bash
@@ -26,11 +28,11 @@ The repository contains the folder:
 - ``src``: simulation code of mixed-precision k-means and distance computing
 
 This repository contains the following algorithms for k-means computing:
-* StandardKMeans1  - the native kmeans algorithm using distance (5.2)
-* StandardKMeans2 - the native kmeans algorithm using distance (5.3)  
-* mpKMeans - the mixed precision kmeans algorithm using Algorithm 5.1
-* allowKMeans1 - kmeans performed in full low precision for computing distance (5.2)
-* allowKMeans2 - kmeans performed in full low precision for computing using distance (5.3)
+* StandardKMeans1  - the native kmeans algorithm using distance (4.3)
+* StandardKMeans2 - the native kmeans algorithm using distance (4.4)  
+* mpKMeans - the mixed-precision kmeans algorithm using Algorithm 6.3
+* allowKMeans1 - kmeans performed in full low precision for computing distance (4.3)
+* allowKMeans2 - kmeans performed in full low precision for computing using distance (4.4)
 
 One can load the library via 
 
