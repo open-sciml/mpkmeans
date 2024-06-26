@@ -34,10 +34,10 @@ def run_Gauss(ct, STDS, DELTAS, LOW_PREC, sample_seeds, n_samples, ndim=2):
                 sigma = X.std(axis=0)
                 norm_X = (X - mu) / sigma
 
-                mpkmeans = mpKMeans(n_clusters=ct, seeding='d2', low_prec=LOW_PREC, delta=delta, verbose=0)
+                mpkmeans = mpKMeans(n_clusters=ct, seeding='d2', low_prec=LOW_PREC, delta=delta, verbose=0, random_state=seed)
                 mpkmeans.fit(X)
 
-                norm_mpkmeans = mpKMeans(n_clusters=ct, seeding='d2', low_prec=LOW_PREC, delta=delta, verbose=0)
+                norm_mpkmeans = mpKMeans(n_clusters=ct, seeding='d2', low_prec=LOW_PREC, delta=delta, verbose=0, random_state=seed)
                 norm_mpkmeans.fit(norm_X)
 
                 ari_arr[s, d] += adjusted_rand_score(y, mpkmeans.labels) / len(sample_seeds)
@@ -51,7 +51,7 @@ def run_Gauss(ct, STDS, DELTAS, LOW_PREC, sample_seeds, n_samples, ndim=2):
 
                 norm_sse_arr[s, d] += norm_mpkmeans.inertia[-1] / len(sample_seeds)
                 norm_trigger_arr[s, d] += norm_mpkmeans.low_prec_trigger / len(sample_seeds)
-    
+
     result = dict()
     
     result['sse_arr'] = sse_arr
@@ -92,18 +92,18 @@ def plot(DELTAS):
     plt.rcParams['axes.facecolor'] = 'white'
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 3))
 
-    ax1.plot(DELTAS, ari_arr_fp16.iloc[0, 1:], label='fp16', marker='P', linestyle='--', linewidth=3, c='orange')
-    ax1.plot(DELTAS, norm_ari_arr_fp16.iloc[0, 1:], label='fp16 (normalized)', marker='^', linestyle='--', markersize=6, c='c')
-    ax1.plot(DELTAS, ari_arr_q52.iloc[0, 1:], label='q52', marker='+', linestyle='--', linewidth=8, c='pink')
-    ax1.plot(DELTAS, norm_ari_arr_q52.iloc[0, 1:], label='q52 (normalized)', marker='*', linestyle=':', linewidth=2, c='r')
+    ax1.plot(DELTAS, ari_arr_fp16.iloc[0, 1:], label='fp16', marker='P', linestyle='--', linewidth=3, c='tomato', markersize=10, markeredgecolor='black')
+    ax1.plot(DELTAS, norm_ari_arr_fp16.iloc[0, 1:], label='fp16 (normalized)', marker='^', linestyle='--', c='darkred', linewidth=2, markersize=13, markeredgecolor='blue')
+    ax1.plot(DELTAS, ari_arr_q52.iloc[0, 1:], label='q52', marker='o', linestyle='--', linewidth=3, c='yellowgreen', markersize=10, markeredgecolor='black')
+    ax1.plot(DELTAS, norm_ari_arr_q52.iloc[0, 1:], label='q52 (normalized)', marker='*', linestyle=':', c='darkgreen', linewidth=2, markersize=13, markeredgecolor='blue')
     ax1.set_xlabel("$\delta$", fontsize=20)
     ax1.set_ylabel("ARI")
     ax1.title.set_text("Cluster $\sigma$=1")
 
-    ax2.plot(DELTAS, ari_arr_fp16.iloc[1, 1:], label='fp16', marker='P', linestyle='--', linewidth=3, c='orange')
-    ax2.plot(DELTAS, norm_ari_arr_fp16.iloc[1, 1:], label='fp16 (normalized)', marker='^', linestyle='--', markersize=6, c='c')
-    ax2.plot(DELTAS, ari_arr_q52.iloc[1, 1:], label='q52', marker='+', linestyle='--', linewidth=8, c='pink')
-    ax2.plot(DELTAS, norm_ari_arr_q52.iloc[1, 1:], label='q52 (normalized)', marker='*', linestyle=':', linewidth=2, c='r')
+    ax2.plot(DELTAS, ari_arr_fp16.iloc[1, 1:], label='fp16', marker='P', linestyle='--', linewidth=3, c='tomato', markersize=10, markeredgecolor='black')
+    ax2.plot(DELTAS, norm_ari_arr_fp16.iloc[1, 1:], label='fp16 (normalized)', marker='^', linestyle='--', c='darkred', linewidth=2, markersize=13, markeredgecolor='blue')
+    ax2.plot(DELTAS, ari_arr_q52.iloc[1, 1:], label='q52', marker='o', linestyle='--', linewidth=3, c='yellowgreen', markersize=10, markeredgecolor='black')
+    ax2.plot(DELTAS, norm_ari_arr_q52.iloc[1, 1:], label='q52 (normalized)', marker='*', linestyle=':', c='darkgreen', linewidth=2, markersize=13, markeredgecolor='blue')
     ax2.set_xlabel("$\delta$", fontsize=20)
     ax2.set_ylabel("ARI")
     ax2.title.set_text("Cluster $\sigma$=2")
@@ -124,19 +124,19 @@ def plot(DELTAS):
     plt.rcParams['axes.facecolor'] = 'white'
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 3))
 
-    ax1.plot(DELTAS, ami_arr_fp16.iloc[0, 1:], label='fp16', marker='P', linestyle='--', linewidth=3, c='orange')
-    ax1.plot(DELTAS, norm_ami_arr_fp16.iloc[0, 1:], label='fp16 (normalized)', marker='^', linestyle='--', markersize=6, c='c')
-    ax1.plot(DELTAS, ami_arr_q52.iloc[0, 1:], label='q52', marker='+', linestyle='--', linewidth=8, c='pink')
-    ax1.plot(DELTAS, norm_ami_arr_q52.iloc[0, 1:], label='q52 (normalized)', marker='*', linestyle=':', linewidth=2, c='r')
+    ax1.plot(DELTAS, ami_arr_fp16.iloc[0, 1:], label='fp16', marker='P', linestyle='--', linewidth=2, c='tomato', markersize=10, markeredgecolor='black')
+    ax1.plot(DELTAS, norm_ami_arr_fp16.iloc[0, 1:], label='fp16 (normalized)', marker='^', linestyle='--', c='darkred', linewidth=2, markersize=13, markeredgecolor='blue')
+    ax1.plot(DELTAS, ami_arr_q52.iloc[0, 1:], label='q52', marker='o', linestyle='--', linewidth=2, c='yellowgreen', markersize=10, markeredgecolor='black')
+    ax1.plot(DELTAS, norm_ami_arr_q52.iloc[0, 1:], label='q52 (normalized)', marker='*', linestyle=':', c='darkgreen', linewidth=2, markersize=13, markeredgecolor='blue')
     ax1.set_xlabel("$\delta$", fontsize=20)
     ax1.set_ylabel("AMI")
     ax1.title.set_text("Cluster $\sigma$=1")
 
 
-    ax2.plot(DELTAS, ami_arr_fp16.iloc[1, 1:], label='fp16', marker='P', linestyle='--', linewidth=3, c='orange')
-    ax2.plot(DELTAS, norm_ami_arr_fp16.iloc[1, 1:], label='fp16 (normalized)', marker='^', linestyle='--', markersize=6, c='c')
-    ax2.plot(DELTAS, ami_arr_q52.iloc[1, 1:], label='q52', marker='+', linestyle='--', linewidth=8, c='pink')
-    ax2.plot(DELTAS, norm_ami_arr_q52.iloc[1, 1:], label='q52 (normalized)', marker='*', linestyle=':', linewidth=2, c='r')
+    ax2.plot(DELTAS, ami_arr_fp16.iloc[1, 1:], label='fp16', marker='P', linestyle='--', linewidth=3, c='tomato', markersize=10, markeredgecolor='black')
+    ax2.plot(DELTAS, norm_ami_arr_fp16.iloc[1, 1:], label='fp16 (normalized)', marker='^', linestyle='--', c='tomato', linewidth=2, markersize=13, markeredgecolor='blue')
+    ax2.plot(DELTAS, ami_arr_q52.iloc[1, 1:], label='q52', marker='o', linestyle='--', linewidth=3, c='yellowgreen', markersize=10, markeredgecolor='black')
+    ax2.plot(DELTAS, norm_ami_arr_q52.iloc[1, 1:], label='q52 (normalized)', marker='*', linestyle=':', linewidth=2, markersize=13, markeredgecolor='blue')
     ax2.set_xlabel("$\delta$", fontsize=20)
     ax2.set_ylabel("AMI")
     ax2.title.set_text("Cluster $\sigma$=2")
@@ -156,19 +156,19 @@ def plot(DELTAS):
     plt.rcParams['axes.facecolor'] = 'white'
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 3))
 
-    ax1.plot(DELTAS, trigger_arr_fp16.iloc[0, 1:], label='fp16', marker='P', linestyle='--', linewidth=3, c='orange')
-    ax1.plot(DELTAS, norm_trigger_arr_fp16.iloc[0, 1:], label='fp16 (normalized)', marker='^', linestyle='--', markersize=6, c='c')
-    ax1.plot(DELTAS, trigger_arr_q52.iloc[0, 1:], label='q52', marker='+', linestyle='--', linewidth=8, c='pink')
-    ax1.plot(DELTAS, norm_trigger_arr_q52.iloc[0, 1:], label='q52 (normalized)', marker='*', linestyle=':', linewidth=2, c='r')
+    ax1.plot(DELTAS, trigger_arr_fp16.iloc[0, 1:], label='fp16', marker='P', linestyle='--', linewidth=3, c='tomato', markersize=10, markeredgecolor='black')
+    ax1.plot(DELTAS, norm_trigger_arr_fp16.iloc[0, 1:], label='fp16 (normalized)', marker='^', linestyle='--', c='darkred', linewidth=2, markersize=13, markeredgecolor='blue')
+    ax1.plot(DELTAS, trigger_arr_q52.iloc[0, 1:], label='q52', marker='o', linestyle='--', linewidth=3, c='yellowgreen', markersize=10, markeredgecolor='black')
+    ax1.plot(DELTAS, norm_trigger_arr_q52.iloc[0, 1:], label='q52 (normalized)', marker='*', linestyle=':', c='darkgreen', linewidth=2, markersize=13, markeredgecolor='blue')
     ax1.set_xlabel("$\delta$", fontsize=20)
     ax1.set_ylabel("$\eta$", fontsize=20)
     ax1.title.set_text("Cluster $\sigma$=1")
 
 
-    ax2.plot(DELTAS, trigger_arr_fp16.iloc[1, 1:], label='fp16', marker='P', linestyle='--', linewidth=3, c='orange')
-    ax2.plot(DELTAS, norm_trigger_arr_fp16.iloc[1, 1:], label='fp16 (normalized)', marker='^', linestyle='--', markersize=6, c='c')
-    ax2.plot(DELTAS, trigger_arr_q52.iloc[1, 1:], label='q52', marker='+', linestyle='--', linewidth=8, c='pink')
-    ax2.plot(DELTAS, norm_trigger_arr_q52.iloc[1, 1:], label='q52 (normalized)', marker='*', linestyle=':', linewidth=2, c='r')
+    ax2.plot(DELTAS, trigger_arr_fp16.iloc[1, 1:], label='fp16', marker='P', linestyle='--', linewidth=3, c='tomato', markersize=10, markeredgecolor='black')
+    ax2.plot(DELTAS, norm_trigger_arr_fp16.iloc[1, 1:], label='fp16 (normalized)', marker='^', linestyle='--', c='darkred', linewidth=2, markersize=13, markeredgecolor='blue')
+    ax2.plot(DELTAS, trigger_arr_q52.iloc[1, 1:], label='q52', marker='o', linestyle='--', linewidth=3, c='yellowgreen', markersize=10, markeredgecolor='black')
+    ax2.plot(DELTAS, norm_trigger_arr_q52.iloc[1, 1:], label='q52 (normalized)', marker='*', linestyle=':', c='darkgreen', linewidth=2, markersize=13, markeredgecolor='blue')
     ax2.set_xlabel("$\delta$", fontsize=20)
     ax2.set_ylabel("$\eta$", fontsize=20)
     ax2.title.set_text("Cluster $\sigma$=2")
@@ -183,6 +183,8 @@ def plot(DELTAS):
 
     plt.savefig('results/gass_trigger.pdf', bbox_inches='tight')
     plt.show()
+    
+    
     
     
 

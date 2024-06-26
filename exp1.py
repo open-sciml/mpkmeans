@@ -78,14 +78,14 @@ def run_exp1():
     markers = ['P', 'x', '+', '*']
 
     for j in range(4):
-        plt.plot(dimensions, err1[j, :], marker=markers[j], linewidth=2, linestyle='--', markersize=12, label=titles[j])
+        plt.semilogy(sec_6_1['dimensions'], err1[j, :], marker=markers[j], linewidth=2, linestyle='--', markersize=12, label=titles[j])
 
     plt.grid(True)
-    plt.xticks(dimensions, fontsize=13);
-    plt.yticks(fontsize=13);
+    plt.xticks(sec_6_1['dimensions'], fontsize=13)
+    plt.yticks(fontsize=13)
     plt.xlabel("Dimension", fontsize=13)
     plt.ylabel("Frobenius norm", fontsize=13)
 
-    plt.legend(fontsize=13)
+    plt.legend(fontsize=11)
     plt.savefig('results/err_work.pdf', bbox_inches='tight')
     plt.show()

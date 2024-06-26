@@ -5,10 +5,10 @@ from pychop import chop
 from src.kmeans import  StandardKMeans2, mpKMeans,  allowKMeans2, chop as kchop
 from sklearn.metrics.cluster import adjusted_rand_score, adjusted_mutual_info_score
 from sklearn.metrics import homogeneity_score, completeness_score, v_measure_score
+import warnings
 from params import sec_7_2
 from params import sigificant_digit
 
-import warnings
 warnings.filterwarnings("ignore")
 
 def runUCI(UCI_DATA, LOW_PREC):
@@ -17,7 +17,7 @@ def runUCI(UCI_DATA, LOW_PREC):
         nonans = np.isnan(X).sum(1) == 0
         X = X[nonans,:]
         y = y[nonans]
-        print(dname+"shape:", X.shape)
+        print(dname+" shape:", X.shape)
         
         mu = X.mean(axis=0)
         sigma = X.std(axis=0)
@@ -107,7 +107,8 @@ def runUCI(UCI_DATA, LOW_PREC):
                         sigificant_digit(v_measure_score(y, mpkmeans.labels)), '&',
                         sigificant_digit(v_measure_score(y, norm_mpkmeans.labels))
          )
-
+        
+        print()
 
 def run_exp4():
     print('Precision: q52')

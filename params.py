@@ -10,7 +10,7 @@ def sigificant_digit(number, digits=5):
         return 0
     
 sec_6_1 = {
-    'sample_seeds' : [0, 42, 2024],
+    'sample_seeds' : [0, 42],
     'size' : 2000,
     'dimensions': [2, 10, 20, 40, 60],
     'low_prec_1': chop(prec='q52', rmode=1),
@@ -19,16 +19,15 @@ sec_6_1 = {
 }
 
 sec_7_1_1 = {
-    'sample_seeds' : [0, 42, 2024],
+    'sample_seeds' : [0, 42],
     'cluster_num' : 10,
-    'DELTAS' : np.arange(1, 2.1, 0.1),
+    'DELTAS' : [1, 1.5, 3, 6, 12, 18, 24],
     'STDS' : [1, 2],
     'n_samples' : 2000, 
     'n_features' : 2,
     'low_prec_1': chop(prec='q52', rmode=1),
     'low_prec_2': kchop(np.float16),
 }
-
 
 sec_7_1_2 = {
     'low_prec_1': chop(prec='q52', rmode=1),
@@ -38,7 +37,7 @@ sec_7_1_2 = {
 
 
 sec_7_2 = {
-    'UCI_DATA': ['Banknote', 'Glass', 'Dermatology', 'Ecoli', 'Phoneme', 'Wine', 'Iris'],
+    'UCI_DATA': ['Dermatology', 'Ecoli', 'Glass', 'Iris', 'Phoneme', 'Wine'],
     'low_prec_1': chop(prec='q52', rmode=1),
     'low_prec_2': kchop(np.float16),
 }
@@ -49,5 +48,7 @@ sec_7_3 = {
     'FILE_2' : 'ILSVRC2012_val_00006582.jpg',
     'cluster_num' : [5, 10, 20, 50],
     'low_prec_1': chop(prec='q52', rmode=1),
-    'low_prec_2': kchop(np.float16)
+    'low_prec_2': kchop(np.float16),
+    'DELTA_1': 1.5, 
+    'DELTA_2': 8, 
 }
