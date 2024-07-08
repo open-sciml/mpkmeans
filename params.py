@@ -10,7 +10,7 @@ def sigificant_digit(number, digits=5):
         return 0
     
 sec_6_1 = {
-    'sample_seeds' : [0, 42],
+    'sample_seeds' : [0, 42, 100, 1056, 2024],
     'size' : 2000,
     'dimensions': [2, 10, 20, 40, 60],
     'low_prec_1': chop(prec='q52', rmode=1),
@@ -19,9 +19,9 @@ sec_6_1 = {
 }
 
 sec_7_1_1 = {
-    'sample_seeds' : [0, 42],
+    'sample_seeds' : [0, 42, 100, 1056, 2024],
     'cluster_num' : 10,
-    'DELTAS' : [1, 1.5, 3, 6, 12, 18, 24],
+    'DELTAS' : [1, 6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72, 78, 84],
     'STDS' : [1, 2],
     'n_samples' : 2000, 
     'n_features' : 2,
@@ -30,6 +30,7 @@ sec_7_1_1 = {
 }
 
 sec_7_1_2 = {
+    'sample_seeds' : [0, 42, 100, 1056, 2024],
     'low_prec_1': chop(prec='q52', rmode=1),
     'low_prec_2': kchop(np.float16),
 }
@@ -37,6 +38,7 @@ sec_7_1_2 = {
 
 
 sec_7_2 = {
+    'sample_seeds' : [0, 42, 100, 1056, 2024],
     'UCI_DATA': ['Dermatology', 'Ecoli', 'Glass', 'Iris', 'Phoneme', 'Wine'],
     'low_prec_1': chop(prec='q52', rmode=1),
     'low_prec_2': kchop(np.float16),
