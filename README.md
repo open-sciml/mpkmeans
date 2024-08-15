@@ -16,8 +16,7 @@ Authors. Computing k-means in mixed precision, Journal.
 
 One can install them before running our code via:
 ```Bash
-pip install pychop
-pip install classixclustering
+pip install pychop classixclustering torch tqdm scikit-learn opencv-python
 ```
 
 
