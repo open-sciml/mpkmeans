@@ -16,8 +16,6 @@ The dependencies for running our code and data loading:
 
 Details on the underlying algorithms can be found in the technical report:
 
-C., Erin, X. Chen, X. Liu. “Computing $k$-means in mixed precision.” (2024).
-
 One can install them before running our code via:
 ```Bash
 pip install pychop classixclustering torch tqdm scikit-learn opencv-python
@@ -76,3 +74,11 @@ python3 run_all.py
 ```
 
 After code running is completed, one can find the results in the folder ``results``.
+
+
+References
+------------
+
+```
+C., Erin, X. Chen, X. Liu. “Computing $k$-means in mixed precision.” (2024).
+```
