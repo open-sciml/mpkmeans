@@ -16,7 +16,7 @@ The dependencies for running our code and data loading:
 
 Details on the underlying algorithms can be found in the technical report:
 
-Carson, Erin et al. “Computing $k$-means in mixed precision.” (2024).
+C., Erin, X. Chen, X. Liu. “Computing $k$-means in mixed precision.” (2024).
 
 One can install them before running our code via:
 ```Bash
