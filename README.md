@@ -8,10 +8,10 @@ By performing simulations across data with various settings, we showcase that de
 The dependencies for running our code and data loading:
 
 - [classixclustering](https://pages.github.com/nla-group/classix). (For preprocessed UCI data loading)
-- NumPy
-- Pandas
-- scikit-learn
-- opencv-python
+- NumPy (The fundamental package for scientific computing)
+- Pandas (For data format and storage)
+- scikit-learn (Machine Learning in Python)
+- opencv-python (For image segmentation)
 - pychop (For low precision arithmetic simulation)
 
 Details on the underlying algorithms can be found in the technical report:
