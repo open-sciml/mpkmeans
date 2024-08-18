@@ -7,7 +7,7 @@ By performing simulations across data with various settings, we showcase that de
 
 The dependencies for running our code and data loading:
 
-- [classixclustering](https://pages.github.com/nla-group/classix). (For preprocessed UCI data loading)
+- [classixclustering](https://github.com/nla-group/classix). (For preprocessed UCI data loading)
 - NumPy (The fundamental package for scientific computing)
 - Pandas (For data format and storage)
 - scikit-learn (Machine Learning in Python)
